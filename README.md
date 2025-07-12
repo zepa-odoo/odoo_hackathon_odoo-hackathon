@@ -6,26 +6,29 @@ A modern, feature-rich Q&A forum built with Next.js 14, TypeScript, and MongoDB 
 
 ### Core Functionality
 - **User Authentication**: Secure signup/signin with NextAuth.js
-- **Question Management**: Ask, view, and manage questions with rich text editing
+- **Password Criteria**: Passwords must be at least 8 characters, with uppercase, lowercase, number, and special character
+- **Question Management**: Ask, view, and manage questions with rich text editing and image upload (up to 2 images per question)
 - **Answer System**: Provide answers with upvote/downvote functionality
 - **Tag System**: Organize content with tags and browse by topics
 - **Search & Filter**: Advanced search with multiple filtering options
-- **Image Upload**: Support for up to 2 images per question (1MB each)
+- **Image Upload & Display**: Attach images to questions and view them in detail pages
 
 ### Advanced Features
 - **Dynamic Sorting**: Sort by newest, most popular, most voted, or most viewed
 - **Smart Filtering**: Filter by unanswered questions, accepted answers, or highly upvoted content
 - **View Counting**: Track question views dynamically
 - **Reputation System**: Build reputation through community engagement
-- **Admin Dashboard**: Manage users and content (admin role required)
-- **Responsive Design**: Mobile-first design with Tailwind CSS
+- **Admin Panel**: Full moderation panel for admins at `/admin-panel` (ban/unban users, delete questions/answers)
+- **Responsive, Modern UI**: GitHub-inspired, clean, and accessible design
 
 ### User Experience
 - **Real-time Notifications**: Stay updated with community activity
-- **Rich Text Editor**: Enhanced content creation experience
+- **Rich Text Editor**: Enhanced content creation experience (bold, italic, lists, emoji, links, images, alignment)
 - **Authentication Flow**: Seamless login redirects for protected actions
 - **Loading States**: Smooth user experience with skeleton loading
 - **Error Handling**: Comprehensive error messages and validation
+- **Click Outside to Close**: Profile and notification dropdowns close when clicking outside
+- **Logo Redirect**: Clicking the logo always takes you to the questions page
 
 ## 🛠️ Tech Stack
 
@@ -135,11 +138,15 @@ QA_Forum/
 │   │   ├── auth/          # Authentication endpoints
 │   │   ├── questions/     # Question management
 │   │   ├── tags/          # Tag management
+│   │   ├── vote/          # Voting API
+│   │   ├── answers/       # Answer management
+│   │   ├── notifications/ # Notification count
 │   │   └── upload/        # Image upload
 │   ├── auth/              # Authentication pages
 │   ├── questions/         # Question pages
 │   ├── tags/              # Tags page
-│   └── admin/             # Admin dashboard
+│   ├── profile/           # User profile page
+│   └── admin-panel/       # Admin panel (admins only)
 ├── components/            # Reusable React components
 ├── models/               # MongoDB/Mongoose models
 ├── lib/                  # Utility functions
@@ -179,6 +186,7 @@ The app uses NextAuth.js with:
 - JWT sessions
 - Protected routes
 - Role-based access control
+- Passwords must meet strong criteria (see above)
 
 ## 🎯 Key Features Explained
 
@@ -204,6 +212,23 @@ Questions can be sorted by:
 - 1MB file size limit per image
 - Automatic validation and error handling
 - Preview functionality before upload
+- Images are displayed on the question detail page
+
+### Voting System
+
+- Upvote/downvote questions and answers
+- Vote counts update in real time
+- Reputation is awarded for upvotes on answers
+- Voting is available to all logged-in users
+
+### Admin Panel
+
+- **Access**: `/admin-panel` (must be logged in as an admin)
+- **Features**:
+  - View all users, questions, and answers
+  - Ban/unban users
+  - Delete any question or answer
+  - Only users with the `admin` role can access this page
 
 ### Authentication Flow
 
@@ -211,6 +236,14 @@ Questions can be sorted by:
 - Callback URLs for seamless navigation
 - Session persistence across page reloads
 - Role-based component rendering
+
+### Modern UI/UX
+
+- GitHub-inspired, clean, and accessible design
+- Responsive layout for desktop and mobile
+- Click outside to close dropdowns
+- Logo always redirects to questions page
+- Enhanced error and loading states
 
 ## 🚀 Deployment
 
@@ -220,6 +253,8 @@ Questions can be sorted by:
 2. Connect your repository to Vercel
 3. Add environment variables in Vercel dashboard
 4. Deploy!
+
+> **Note:** No `vercel.json` file is required unless you need custom rewrites or redirects. All API routes are handled by Next.js automatically.
 
 ### Other Platforms
 
@@ -247,19 +282,4 @@ If you encounter any issues:
 
 1. Check the [Issues](../../issues) page
 2. Create a new issue with detailed information
-3. Include your environment details and error messages
-
-## 🔮 Future Enhancements
-
-- Real-time notifications with WebSockets
-- Advanced search with Elasticsearch
-- File upload to cloud storage (AWS S3, Cloudinary)
-- Email notifications
-- User profiles with badges
-- Question bookmarking
-- Advanced analytics dashboard
-- Mobile app with React Native
-
----
-
-**Happy coding! 🎉** 
+3. Include your environment details and error messages 

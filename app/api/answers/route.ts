@@ -1,14 +1,49 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/authOptions';
 import dbConnect from '@/lib/mongodb';
 import Answer from '@/models/Answer';
 import Question from '@/models/Question';
 import User from '@/models/User';
 import Notification from '@/models/Notification';
 
+export async function GET(request: NextRequest) {
+  try {
+    await dbConnect();
+    
+    const { searchParams } = new URL(request.url);
+    const author = searchParams.get('author');
+    const questionId = searchParams.get('questionId');
+    
+    let query: any = {};
+    
+    if (author) {
+      query.author = author;
+    }
+    
+    if (questionId) {
+      query.question = questionId;
+    }
+    
+    const answers = await Answer.find(query)
+      .populate('author', 'username reputation')
+      .populate('question', 'title')
+      .sort({ createdAt: -1 })
+      .lean();
+    
+    return NextResponse.json({ answers });
+  } catch (error) {
+    console.error('Error fetching answers:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch answers' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {
       return NextResponse.json(

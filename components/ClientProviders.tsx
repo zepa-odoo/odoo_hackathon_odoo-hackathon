@@ -3,7 +3,11 @@
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 
-export default function ClientProviders({ children }: { children: React.ReactNode }) {
+interface ClientProvidersProps {
+  children: React.ReactNode;
+}
+
+export default function ClientProviders({ children }: ClientProvidersProps) {
   return (
     <SessionProvider>
       {children}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/authOptions';
 import dbConnect from '@/lib/mongodb';
 import Question from '@/models/Question';
 import User from '@/models/User';
@@ -13,6 +14,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10');
     const tag = searchParams.get('tag');
     const search = searchParams.get('search');
+    const author = searchParams.get('author');
     const sort = searchParams.get('sort') || 'newest';
     const filter = searchParams.get('filter') || 'all';
     
@@ -23,6 +25,11 @@ export async function GET(request: NextRequest) {
     // Tag filter
     if (tag) {
       query.tags = tag;
+    }
+    
+    // Author filter
+    if (author) {
+      query.author = author;
     }
     
     // Search filter
@@ -114,7 +121,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
     
     if (!session?.user?.id) {
       return NextResponse.json(

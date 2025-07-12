@@ -251,7 +251,7 @@ export default function AskQuestionPage() {
               Detailed Description *
             </label>
             <RichTextEditor
-              content={formData.content}
+              value={formData.content}
               onChange={(content) => handleInputChange('content', content)}
               placeholder="Provide detailed information about your question..."
               className="min-h-48"

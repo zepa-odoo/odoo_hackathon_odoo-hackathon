@@ -1,246 +1,174 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { FiPlus, FiSearch, FiTrendingUp, FiClock, FiMessageSquare } from 'react-icons/fi';
-import QuestionCard from '@/components/QuestionCard';
-import Header from '@/components/Header';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/authOptions';
+import { FaSearch, FaQuestion, FaTags, FaUsers, FaChartLine } from 'react-icons/fa';
 
-interface Question {
-  _id: string;
-  title: string;
-  content: string;
-  author: {
-    username: string;
-    reputation: number;
-  };
-  tags: string[];
-  votes: {
-    upvotes: string[];
-    downvotes: string[];
-  };
-  views: number;
-  answers: number;
-  createdAt: string;
-}
-
-export default function HomePage() {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('newest');
-
-  useEffect(() => {
-    fetchQuestions();
-  }, [sortBy]);
-
-  const fetchQuestions = async () => {
-    try {
-      const params = new URLSearchParams();
-      if (searchTerm) params.append('search', searchTerm);
-      if (sortBy === 'popular') params.append('sort', 'votes');
-      
-      const response = await fetch(`/api/questions?${params}`);
-      const data = await response.json();
-      setQuestions(data.questions || []);
-    } catch (error) {
-      console.error('Error fetching questions:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchQuestions();
-  };
-
-  const handleAskQuestion = () => {
-    if (session) {
-      router.push('/questions/ask');
-    } else {
-      router.push('/auth/signin?callbackUrl=/questions/ask');
-    }
-  };
+export default async function Home() {
+  const session = await getServerSession(authOptions);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Welcome to StackIt
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            A community-driven Q&A platform where developers help each other solve problems and share knowledge.
+      {/* Hero Section */}
+      <section className="bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Welcome to <span className="text-blue-600">QA Forum</span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              Ask questions, share knowledge, and connect with developers from around the world. 
+              Get answers to your programming questions and help others learn.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {session ? (
+                <Link 
+                  href="/questions/ask" 
+                  className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors"
+                >
+                  Ask a Question
+                </Link>
+              ) : (
+                <Link 
+                  href="/auth/signin" 
+                  className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors"
+                >
+                  Get Started
+                </Link>
+              )}
+              <Link 
+                href="/questions" 
+                className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-50 transition-colors"
+              >
+                Browse Questions
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Why Choose QA Forum?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Our platform is designed to make learning and sharing knowledge easy and effective.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaSearch className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Smart Search</h3>
+              <p className="text-gray-600">
+                Find answers quickly with our powerful search and filtering system.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaQuestion className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Quality Answers</h3>
+              <p className="text-gray-600">
+                Get verified answers from experienced developers and experts.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaTags className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Organized Topics</h3>
+              <p className="text-gray-600">
+                Questions are organized by tags and categories for easy navigation.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaUsers className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Community</h3>
+              <p className="text-gray-600">
+                Join a community of developers helping each other grow and learn.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Platform Statistics
+            </h2>
+            <p className="text-lg text-gray-600">
+              See how our community is growing and helping developers worldwide.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-blue-600 mb-2">1,000+</div>
+              <div className="text-gray-600">Questions Asked</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-green-600 mb-2">5,000+</div>
+              <div className="text-gray-600">Answers Provided</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-purple-600 mb-2">500+</div>
+              <div className="text-gray-600">Active Users</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-orange-600 mb-2">50+</div>
+              <div className="text-gray-600">Topics Covered</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Ready to Get Started?
+          </h2>
+          <p className="text-lg text-gray-600 mb-8">
+            Join thousands of developers who are already learning and sharing knowledge on our platform.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleAskQuestion}
-              className="btn btn-primary text-lg px-8 py-3 flex items-center justify-center"
+            {session ? (
+              <Link 
+                href="/questions/ask" 
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors"
+              >
+                Ask Your First Question
+              </Link>
+            ) : (
+              <Link 
+                href="/auth/signup" 
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors"
+              >
+                Create Account
+              </Link>
+            )}
+            <Link 
+              href="/questions" 
+              className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg text-lg font-medium hover:bg-gray-50 transition-colors"
             >
-              <FiPlus className="mr-2" />
-              Ask a Question
-            </button>
-            <Link
-              href="/questions"
-              className="btn btn-secondary text-lg px-8 py-3"
-            >
-              Browse Questions
+              Explore Questions
             </Link>
           </div>
         </div>
-
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
-          <div className="lg:w-64 space-y-6">
-            <div className="card">
-              <h3 className="text-lg font-semibold mb-4">Sort by</h3>
-              <div className="space-y-2">
-                <button
-                  onClick={() => setSortBy('newest')}
-                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                    sortBy === 'newest' ? 'bg-primary-100 text-primary-700' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <FiClock className="inline mr-2" />
-                  Newest
-                </button>
-                <button
-                  onClick={() => setSortBy('popular')}
-                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                    sortBy === 'popular' ? 'bg-primary-100 text-primary-700' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <FiTrendingUp className="inline mr-2" />
-                  Most Popular
-                </button>
-              </div>
-            </div>
-
-            <div className="card">
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <div className="space-y-2">
-                <Link
-                  href="/tags"
-                  className="block w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  Browse Tags
-                </Link>
-                <Link
-                  href="/questions?filter=unanswered"
-                  className="block w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  Unanswered Questions
-                </Link>
-                {session && (
-                  <Link
-                    href="/questions/ask"
-                    className="block w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
-                  >
-                    Ask Question
-                  </Link>
-                )}
-              </div>
-            </div>
-
-            {!session && (
-              <div className="card bg-primary-50 border-primary-200">
-                <h3 className="text-lg font-semibold mb-4 text-primary-900">Join the Community</h3>
-                <p className="text-sm text-primary-700 mb-4">
-                  Sign up to ask questions, answer others, and build your reputation.
-                </p>
-                <div className="space-y-2">
-                  <Link
-                    href="/auth/signup"
-                    className="btn btn-primary w-full text-sm"
-                  >
-                    Sign Up
-                  </Link>
-                  <Link
-                    href="/auth/signin"
-                    className="btn btn-secondary w-full text-sm"
-                  >
-                    Sign In
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Main Content */}
-          <div className="flex-1">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Recent Questions</h2>
-              
-              <form onSubmit={handleSearch} className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Search questions..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="input flex-1 min-w-0"
-                />
-                <button type="submit" className="btn btn-primary">
-                  <FiSearch />
-                </button>
-              </form>
-            </div>
-
-            {loading ? (
-              <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="card animate-pulse">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                    <div className="flex gap-2">
-                      <div className="h-6 bg-gray-200 rounded w-16"></div>
-                      <div className="h-6 bg-gray-200 rounded w-20"></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : questions.length === 0 ? (
-              <div className="card text-center py-12">
-                <FiMessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No questions found</h3>
-                <p className="text-gray-500 mb-4">
-                  {searchTerm ? 'Try adjusting your search terms.' : 'Be the first to ask a question!'}
-                </p>
-                <button
-                  onClick={handleAskQuestion}
-                  className="btn btn-primary"
-                >
-                  Ask Question
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {questions.map((question) => (
-                  <QuestionCard key={question._id} question={question} />
-                ))}
-              </div>
-            )}
-
-            {questions.length > 0 && (
-              <div className="mt-8 text-center">
-                <Link
-                  href="/questions"
-                  className="btn btn-secondary"
-                >
-                  View All Questions
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
+      </section>
     </div>
   );
 } 

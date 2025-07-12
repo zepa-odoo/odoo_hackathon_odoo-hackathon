@@ -153,7 +153,7 @@ export default function SignUpPage() {
                   onChange={handleChange}
                   className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   placeholder="Enter your password"
-                  minLength={6}
+                  minLength={8}
                 />
                 <button
                   type="button"
@@ -166,6 +166,9 @@ export default function SignUpPage() {
                     <FiEye className="h-5 w-5 text-gray-400" />
                   )}
                 </button>
+              </div>
+              <div className="mt-2 text-xs text-gray-500">
+                Password must contain at least 8 characters, including uppercase, lowercase, number, and special character.
               </div>
             </div>
 
@@ -187,7 +190,7 @@ export default function SignUpPage() {
                   onChange={handleChange}
                   className="appearance-none block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   placeholder="Confirm your password"
-                  minLength={6}
+                  minLength={8}
                 />
                 <button
                   type="button"

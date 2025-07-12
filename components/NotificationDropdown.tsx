@@ -18,9 +18,10 @@ interface Notification {
 
 interface NotificationDropdownProps {
   onClose: () => void;
+  onUpdateCount?: () => void;
 }
 
-export default function NotificationDropdown({ onClose }: NotificationDropdownProps) {
+export default function NotificationDropdown({ onClose, onUpdateCount }: NotificationDropdownProps) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,6 +51,7 @@ export default function NotificationDropdown({ onClose }: NotificationDropdownPr
           notif._id === notificationId ? { ...notif, isRead: true } : notif
         )
       );
+      onUpdateCount?.();
     } catch (error) {
       console.error('Error marking notification as read:', error);
     }
@@ -63,6 +65,7 @@ export default function NotificationDropdown({ onClose }: NotificationDropdownPr
       setNotifications(prev =>
         prev.map(notif => ({ ...notif, isRead: true }))
       );
+      onUpdateCount?.();
     } catch (error) {
       console.error('Error marking all notifications as read:', error);
     }
@@ -75,7 +78,7 @@ export default function NotificationDropdown({ onClose }: NotificationDropdownPr
         <div className="flex items-center space-x-2">
           <button
             onClick={markAllAsRead}
-            className="text-sm text-primary-600 hover:text-primary-700"
+            className="text-sm text-blue-600 hover:text-blue-700"
           >
             Mark all read
           </button>
@@ -117,7 +120,7 @@ export default function NotificationDropdown({ onClose }: NotificationDropdownPr
                       {!notification.isRead && (
                         <button
                           onClick={() => markAsRead(notification._id)}
-                          className="text-xs text-primary-600 hover:text-primary-700"
+                          className="text-xs text-blue-600 hover:text-blue-700"
                         >
                           <FiCheck className="w-3 h-3" />
                         </button>
@@ -133,7 +136,7 @@ export default function NotificationDropdown({ onClose }: NotificationDropdownPr
                         ? `/questions/${notification.relatedQuestion}`
                         : `/answers/${notification.relatedAnswer}`
                       }
-                      className="text-xs text-primary-600 hover:text-primary-700"
+                      className="text-xs text-blue-600 hover:text-blue-700"
                       onClick={onClose}
                     >
                       View related content →
@@ -150,7 +153,7 @@ export default function NotificationDropdown({ onClose }: NotificationDropdownPr
         <div className="p-4 border-t border-gray-200">
           <Link
             href="/notifications"
-            className="block text-center text-sm text-primary-600 hover:text-primary-700"
+            className="block text-center text-sm text-blue-600 hover:text-blue-700"
             onClick={onClose}
           >
             View all notifications
