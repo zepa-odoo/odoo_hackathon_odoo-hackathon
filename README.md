@@ -1,285 +1,238 @@
-# StackIt - Q&A Forum
+# StackIt - Q&A Community Platform
 
-A modern, feature-rich Q&A forum built with Next.js 14, TypeScript, and MongoDB Atlas. StackIt provides a platform for developers to ask questions, share knowledge, and build their reputation through community engagement.
+A modern, feature-rich Q&A community platform built with Next.js, TypeScript, and MongoDB. StackIt provides a comprehensive solution for creating and managing question-and-answer communities with advanced features like reputation systems, admin management, and real-time notifications.
 
-## 🚀 Features
+## 🌟 Features
 
 ### Core Functionality
-- **User Authentication**: Secure signup/signin with NextAuth.js
-- **Password Criteria**: Passwords must be at least 8 characters, with uppercase, lowercase, number, and special character
-- **Question Management**: Ask, view, and manage questions with rich text editing and image upload (up to 2 images per question)
-- **Answer System**: Provide answers with upvote/downvote functionality
-- **Tag System**: Organize content with tags and browse by topics
-- **Search & Filter**: Advanced search with multiple filtering options
-- **Image Upload & Display**: Attach images to questions and view them in detail pages
+- **Question & Answer System**: Create, edit, and manage questions with rich text editing
+- **Voting System**: Upvote and downvote questions and answers
+- **Tag System**: Organize content with customizable tags
+- **Search & Filter**: Advanced search and filtering capabilities
+- **User Profiles**: Detailed user profiles with reputation tracking
 
-### Advanced Features
-- **Dynamic Sorting**: Sort by newest, most popular, most voted, or most viewed
-- **Smart Filtering**: Filter by unanswered questions, accepted answers, or highly upvoted content
-- **View Counting**: Track question views dynamically
-- **Reputation System**: Build reputation through community engagement
-- **Admin Panel**: Full moderation panel for admins at `/admin-panel` (ban/unban users, delete questions/answers)
-- **Responsive, Modern UI**: GitHub-inspired, clean, and accessible design
+### Reputation System
+- **Question Asking**: +50 reputation for asking questions
+- **Answering**: +100 reputation for providing answers
+- **Accepted Answers**: +50 reputation for having answers accepted
+- **User Stats**: Track questions asked, answers given, and accepted answers
 
-### User Experience
-- **Real-time Notifications**: Stay updated with community activity
-- **Rich Text Editor**: Enhanced content creation experience (bold, italic, lists, emoji, links, images, alignment)
-- **Authentication Flow**: Seamless login redirects for protected actions
-- **Loading States**: Smooth user experience with skeleton loading
-- **Error Handling**: Comprehensive error messages and validation
-- **Click Outside to Close**: Profile and notification dropdowns close when clicking outside
-- **Logo Redirect**: Clicking the logo always takes you to the questions page
+### Admin Features
+- **Master Admin System**: Special master admin role with enhanced privileges
+- **User Management**: Ban, suspend, and manage user accounts
+- **Content Moderation**: Delete questions and answers
+- **Suspension System**: Time-based user suspensions with custom reasons
+- **Admin Management**: Add/remove admin accounts (master admin only)
+
+### Enhanced User Experience
+- **GitHub Dark Theme**: Beautiful dark theme inspired by GitHub
+- **Rich Text Editor**: Advanced content editing with image support
+- **Image Upload**: Support for images in questions and answers
+- **Real-time Notifications**: Get notified for answers, mentions, and more
+- **Responsive Design**: Mobile-friendly interface
+
+### Security & Authentication
+- **NextAuth.js**: Secure authentication system
+- **Role-based Access**: User, admin, and master admin roles
+- **Suspension System**: Prevent suspended users from accessing the platform
+- **Input Validation**: Comprehensive form validation and sanitization
+
+## 🚀 Live Demo
+
+Visit the live application: **[stack1t.vercel.app](https://stack1t.vercel.app)**
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, MongoDB
 - **Authentication**: NextAuth.js
-- **Database**: MongoDB Atlas
-- **Icons**: React Icons (Feather Icons)
-- **Notifications**: React Hot Toast
-- **Date Handling**: date-fns
+- **Database**: MongoDB with Mongoose ODM
+- **Styling**: Tailwind CSS with custom GitHub-inspired theme
+- **Deployment**: Vercel
 
-## 📋 Prerequisites
+## 📦 Installation
 
-- Node.js 18+ 
-- MongoDB Atlas account
-- npm or yarn package manager
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd QA_Forum
+   ```
 
-## 🚀 Quick Start
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### 1. Clone the Repository
+3. **Set up environment variables**
+   ```bash
+   cp env.example .env.local
+   ```
+   
+   Fill in your environment variables:
+   ```env
+   MONGODB_URI=your_mongodb_connection_string
+   NEXTAUTH_SECRET=your_nextauth_secret
+   NEXTAUTH_URL=http://localhost:3000
+   ```
 
-```bash
-git clone <your-repo-url>
-cd QA_Forum
-```
+4. **Set up the master admin account**
+   ```bash
+   npm run setup-admin
+   ```
+   
+   This creates the master admin account:
+   - Email: `mohilp03437@gmail.com`
+   - Password: `Parth@007`
 
-### 2. Install Dependencies
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-```bash
-npm install
-```
-
-### 3. Environment Setup
-
-Copy the environment template and configure your variables:
-
-```bash
-cp env.example .env.local
-```
-
-Update `.env.local` with your configuration:
-
-```env
-# Database
-MONGODB_URI=mongodb+srv://your-username:your-password@your-cluster.mongodb.net/your-database?retryWrites=true&w=majority
-
-# NextAuth
-NEXTAUTH_SECRET=your-nextauth-secret-key-here
-NEXTAUTH_URL=http://localhost:3000
-```
-
-### 4. MongoDB Atlas Setup
-
-1. **Create a MongoDB Atlas Account**:
-   - Go to [MongoDB Atlas](https://www.mongodb.com/atlas)
-   - Sign up for a free account
-
-2. **Create a Cluster**:
-   - Choose the free tier (M0)
-   - Select your preferred cloud provider and region
-   - Click "Create Cluster"
-
-3. **Set Up Database Access**:
-   - Go to "Database Access" in the left sidebar
-   - Click "Add New Database User"
-   - Create a username and password (save these!)
-   - Select "Read and write to any database"
-   - Click "Add User"
-
-4. **Configure Network Access**:
-   - Go to "Network Access" in the left sidebar
-   - Click "Add IP Address"
-   - For development: Click "Allow Access from Anywhere" (0.0.0.0/0)
-   - For production: Add your specific IP addresses
-
-5. **Get Connection String**:
-   - Go to "Clusters" and click "Connect"
-   - Choose "Connect your application"
-   - Copy the connection string
-   - Replace `<password>` with your database user password
-   - Replace `<dbname>` with your desired database name
-
-### 5. Generate NextAuth Secret
-
-Generate a secure secret for NextAuth:
-
-```bash
-openssl rand -base64 32
-```
-
-Or use an online generator and add it to your `.env.local` file.
-
-### 6. Run the Development Server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 📁 Project Structure
-
-```
-QA_Forum/
-├── app/                    # Next.js 14 App Router
-│   ├── api/               # API routes
-│   │   ├── auth/          # Authentication endpoints
-│   │   ├── questions/     # Question management
-│   │   ├── tags/          # Tag management
-│   │   ├── vote/          # Voting API
-│   │   ├── answers/       # Answer management
-│   │   ├── notifications/ # Notification count
-│   │   └── upload/        # Image upload
-│   ├── auth/              # Authentication pages
-│   ├── questions/         # Question pages
-│   ├── tags/              # Tags page
-│   ├── profile/           # User profile page
-│   └── admin-panel/       # Admin panel (admins only)
-├── components/            # Reusable React components
-├── models/               # MongoDB/Mongoose models
-├── lib/                  # Utility functions
-├── types/                # TypeScript type definitions
-└── scripts/              # Database seeding scripts
-```
+6. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 🔧 Configuration
 
-### Database Models
+### Master Admin Setup
+The application comes with a pre-configured master admin account:
+- **Email**: `mohilp03437@gmail.com`
+- **Password**: `Parth@007`
 
-The application uses three main models:
+Only the master admin can:
+- Add/remove other admin accounts
+- Access the admin management panel
+- Perform all administrative functions
 
-1. **User Model** (`models/User.ts`):
-   - Username, email, password
-   - Role (user/admin)
-   - Reputation system
-   - Account status (banned/active)
+### Admin Roles
+- **Master Admin**: Full system access, can manage other admins
+- **Admin**: Can manage users, questions, and answers
+- **User**: Standard user with voting and content creation rights
 
-2. **Question Model** (`models/Question.ts`):
-   - Title, content, short description
-   - Tags, images
-   - Vote tracking (upvotes/downvotes)
-   - View count, answer count
-   - Author reference
+## 📱 Usage
 
-3. **Answer Model** (`models/Answer.ts`):
-   - Content
-   - Vote tracking
-   - Acceptance status
-   - Author and question references
+### For Users
+1. **Sign up/Login**: Create an account or sign in
+2. **Ask Questions**: Use the rich text editor to create detailed questions
+3. **Answer Questions**: Provide helpful answers to earn reputation
+4. **Vote**: Upvote good content and downvote poor content
+5. **Accept Answers**: Mark the best answer as accepted (question authors only)
 
-### Authentication
+### For Admins
+1. **Access Admin Panel**: Navigate to `/admin-panel`
+2. **Manage Users**: Ban, suspend, or remove users
+3. **Moderate Content**: Delete inappropriate questions and answers
+4. **View Statistics**: Monitor user activity and platform usage
 
-The app uses NextAuth.js with:
-- Credentials provider for email/password
-- JWT sessions
-- Protected routes
-- Role-based access control
-- Passwords must meet strong criteria (see above)
+### For Master Admins
+1. **Admin Management**: Add or remove admin accounts
+2. **System Configuration**: Access advanced system settings
+3. **Full Control**: All admin privileges plus master-level functions
 
-## 🎯 Key Features Explained
+## 🎨 Customization
 
-### Dynamic Question Filtering
+### Theme Customization
+The application uses a GitHub-inspired dark theme. You can customize colors by modifying the CSS variables in `app/globals.css`.
 
-The questions API supports multiple filter types:
-- `all`: All questions
-- `unanswered`: Questions with no answers
-- `accepted`: Questions with accepted answers
-- `upvoted`: Highly upvoted questions
+### Feature Configuration
+- **Reputation Points**: Modify reputation values in the API routes
+- **Suspension Limits**: Adjust maximum suspension periods
+- **Content Limits**: Change character limits for questions and answers
 
-### Advanced Sorting
+## 🔒 Security Features
 
-Questions can be sorted by:
-- `newest`: Most recently created
-- `popular`: Most viewed
-- `votes`: Most upvoted
-- `views`: Most viewed
+- **Input Sanitization**: All user inputs are sanitized
+- **Role-based Access Control**: Secure access to admin features
+- **Session Management**: Secure session handling with NextAuth.js
+- **Rate Limiting**: Built-in protection against abuse
+- **Suspension System**: Time-based user restrictions
 
-### Image Upload System
+## 📊 Database Schema
 
-- Maximum 2 images per question
-- 1MB file size limit per image
-- Automatic validation and error handling
-- Preview functionality before upload
-- Images are displayed on the question detail page
+### User Model
+```typescript
+{
+  username: string;
+  email: string;
+  password: string;
+  role: 'user' | 'admin' | 'master';
+  reputation: number;
+  questionsAsked: number;
+  answersGiven: number;
+  acceptedAnswers: number;
+  isBanned: boolean;
+  suspendedUntil?: Date;
+  suspensionReason?: string;
+}
+```
 
-### Voting System
+### Question Model
+```typescript
+{
+  title: string;
+  content: string;
+  author: ObjectId;
+  tags: string[];
+  images: string[];
+  votes: { upvotes: ObjectId[], downvotes: ObjectId[] };
+  views: number;
+  answers: number;
+  isAccepted: boolean;
+}
+```
 
-- Upvote/downvote questions and answers
-- Vote counts update in real time
-- Reputation is awarded for upvotes on answers
-- Voting is available to all logged-in users
-
-### Admin Panel
-
-- **Access**: `/admin-panel` (must be logged in as an admin)
-- **Features**:
-  - View all users, questions, and answers
-  - Ban/unban users
-  - Delete any question or answer
-  - Only users with the `admin` role can access this page
-
-### Authentication Flow
-
-- Protected routes redirect to login
-- Callback URLs for seamless navigation
-- Session persistence across page reloads
-- Role-based component rendering
-
-### Modern UI/UX
-
-- GitHub-inspired, clean, and accessible design
-- Responsive layout for desktop and mobile
-- Click outside to close dropdowns
-- Logo always redirects to questions page
-- Enhanced error and loading states
+### Answer Model
+```typescript
+{
+  content: string;
+  images: string[];
+  author: ObjectId;
+  question: ObjectId;
+  votes: { upvotes: ObjectId[], downvotes: ObjectId[] };
+  isAccepted: boolean;
+}
+```
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Vercel Deployment
+1. Connect your GitHub repository to Vercel
+2. Set up environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy!
-
-> **Note:** No `vercel.json` file is required unless you need custom rewrites or redirects. All API routes are handled by Next.js automatically.
-
-### Other Platforms
-
-The app can be deployed to any platform that supports Next.js:
-- Netlify
-- Railway
-- DigitalOcean App Platform
-- AWS Amplify
+### Environment Variables for Production
+```env
+MONGODB_URI=your_production_mongodb_uri
+NEXTAUTH_SECRET=your_production_secret
+NEXTAUTH_URL=https://your-domain.vercel.app
+```
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📝 License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
-If you encounter any issues:
-
-1. Check the [Issues](../../issues) page
+If you encounter any issues or have questions:
+1. Check the [Issues](https://github.com/your-repo/issues) page
 2. Create a new issue with detailed information
-3. Include your environment details and error messages 
+3. Contact the development team
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- Authentication powered by [NextAuth.js](https://next-auth.js.org/)
+- Database managed with [MongoDB](https://www.mongodb.com/)
+
+---
+
+**StackIt** - Empowering communities through knowledge sharing. 

@@ -72,19 +72,19 @@ export default function NotificationDropdown({ onClose, onUpdateCount }: Notific
   };
 
   return (
-    <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
+    <div className="absolute right-0 mt-2 w-80 bg-[#161b22] rounded-lg shadow-github-lg border border-[#30363d] z-50">
+      <div className="flex items-center justify-between p-4 border-b border-[#30363d]">
+        <h3 className="text-lg font-semibold text-[#f0f6fc]">Notifications</h3>
         <div className="flex items-center space-x-2">
           <button
             onClick={markAllAsRead}
-            className="text-sm text-blue-600 hover:text-blue-700"
+            className="text-sm text-[#58a6ff] hover:text-[#79c0ff] transition-github"
           >
             Mark all read
           </button>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-[#7d8590] hover:text-[#c9d1d9] transition-github"
           >
             <FiX className="w-4 h-4" />
           </button>
@@ -93,34 +93,34 @@ export default function NotificationDropdown({ onClose, onUpdateCount }: Notific
 
       <div className="max-h-96 overflow-y-auto">
         {loading ? (
-          <div className="p-4 text-center text-gray-500">Loading...</div>
+          <div className="p-4 text-center text-[#7d8590]">Loading...</div>
         ) : notifications.length === 0 ? (
-          <div className="p-4 text-center text-gray-500">No notifications</div>
+          <div className="p-4 text-center text-[#7d8590]">No notifications</div>
         ) : (
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-[#30363d]">
             {notifications.map((notification) => (
               <div
                 key={notification._id}
-                className={`p-4 hover:bg-gray-50 transition-colors ${
-                  !notification.isRead ? 'bg-blue-50' : ''
+                className={`p-4 hover:bg-[#21262d] transition-github ${
+                  !notification.isRead ? 'bg-[#1f6feb] bg-opacity-10' : ''
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-gray-900 mb-1">
+                    <h4 className="text-sm font-medium text-[#f0f6fc] mb-1">
                       {notification.title}
                     </h4>
-                    <p className="text-sm text-gray-600 mb-2">
+                    <p className="text-sm text-[#c9d1d9] mb-2">
                       {notification.message}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-[#7d8590]">
                         {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
                       </span>
                       {!notification.isRead && (
                         <button
                           onClick={() => markAsRead(notification._id)}
-                          className="text-xs text-blue-600 hover:text-blue-700"
+                          className="text-xs text-[#58a6ff] hover:text-[#79c0ff] transition-github"
                         >
                           <FiCheck className="w-3 h-3" />
                         </button>
@@ -136,7 +136,7 @@ export default function NotificationDropdown({ onClose, onUpdateCount }: Notific
                         ? `/questions/${notification.relatedQuestion}`
                         : `/answers/${notification.relatedAnswer}`
                       }
-                      className="text-xs text-blue-600 hover:text-blue-700"
+                      className="text-xs text-[#58a6ff] hover:text-[#79c0ff] transition-github"
                       onClick={onClose}
                     >
                       View related content →
@@ -150,10 +150,10 @@ export default function NotificationDropdown({ onClose, onUpdateCount }: Notific
       </div>
 
       {notifications.length > 0 && (
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-[#30363d]">
           <Link
             href="/notifications"
-            className="block text-center text-sm text-blue-600 hover:text-blue-700"
+            className="block text-center text-sm text-[#58a6ff] hover:text-[#79c0ff] transition-github"
             onClick={onClose}
           >
             View all notifications

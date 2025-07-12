@@ -4,11 +4,29 @@
 
 @layer base {
   html {
-    font-family: system-ui, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
   
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-[#0d1117] text-[#c9d1d9];
+  }
+
+  /* GitHub-style scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[#0d1117];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#30363d] rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#484f58];
   }
 }
 
@@ -18,28 +36,56 @@
   }
   
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-[#238636] text-white hover:bg-[#2ea043] border border-[#238636] hover:border-[#2ea043];
   }
   
   .btn-secondary {
-    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+    @apply bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d] border border-[#30363d] hover:border-[#484f58];
   }
   
   .btn-outline {
-    @apply border border-gray-300 text-gray-700 hover:bg-gray-50;
+    @apply border border-[#30363d] text-[#c9d1d9] hover:bg-[#21262d] hover:border-[#484f58];
+  }
+
+  .btn-danger {
+    @apply bg-[#da3633] text-white hover:bg-[#f85149] border border-[#da3633] hover:border-[#f85149];
   }
   
   .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200;
+    @apply bg-[#161b22] rounded-lg shadow-sm border border-[#30363d];
   }
   
   .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#238636] focus:border-[#238636] text-[#c9d1d9] placeholder-[#7d8590];
   }
   
   .textarea {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#238636] focus:border-[#238636] text-[#c9d1d9] placeholder-[#7d8590];
     resize: vertical;
+  }
+
+  .tag {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#1f6feb] text-white hover:bg-[#388bfd];
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-[#238636] text-white;
+  }
+
+  .badge-warning {
+    @apply bg-[#d29922] text-white;
+  }
+
+  .badge-danger {
+    @apply bg-[#da3633] text-white;
+  }
+
+  .badge-info {
+    @apply bg-[#1f6feb] text-white;
   }
   
   .line-clamp-2 {
@@ -48,6 +94,58 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* GitHub-style prose for content */
+.prose {
+  @apply text-[#c9d1d9];
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  @apply text-[#f0f6fc] font-semibold;
+}
+
+.prose a {
+  @apply text-[#58a6ff] hover:text-[#79c0ff];
+}
+
+.prose code {
+  @apply bg-[#21262d] text-[#c9d1d9] px-1 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+  @apply bg-[#0d1117] border border-[#30363d] rounded-lg p-4 overflow-x-auto;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-[#30363d] pl-4 italic text-[#7d8590];
+}
+
+.prose ul, .prose ol {
+  @apply text-[#c9d1d9];
+}
+
+.prose li {
+  @apply text-[#c9d1d9];
+}
+
+.prose strong {
+  @apply text-[#f0f6fc] font-semibold;
+}
+
+.prose em {
+  @apply text-[#c9d1d9] italic;
 }
 
 /* Custom scrollbar for dark mode */
@@ -61,15 +159,15 @@
   }
   
   .scrollbar-thin::-webkit-scrollbar-track {
-    @apply bg-gray-100 dark:bg-gray-800;
+    @apply bg-[#0d1117];
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+    @apply bg-[#30363d] rounded-full;
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400 dark:bg-gray-500;
+    @apply bg-[#484f58];
   }
 }
 
@@ -86,4 +184,23 @@
   .heading-responsive {
     @apply text-2xl sm:text-3xl lg:text-4xl font-bold;
   }
+}
+
+/* GitHub-style focus states */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-[#238636] focus:ring-offset-2 focus:ring-offset-[#0d1117];
+}
+
+/* GitHub-style transitions */
+.transition-github {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* GitHub-style shadows */
+.shadow-github {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.shadow-github-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 } 

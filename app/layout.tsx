@@ -6,8 +6,12 @@ import ClientProviders from '@/components/ClientProviders';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'StackIt - Q&A Forum',
-  description: 'A minimal Q&A forum platform for asking and answering questions',
+  title: 'StackIt - Q&A Community',
+  description: 'A modern Q&A community platform for asking and answering questions',
+  keywords: 'Q&A, questions, answers, community, stackit, forum',
+  authors: [{ name: 'StackIt Team' }],
+  viewport: 'width=device-width, initial-scale=1',
+  themeColor: '#0d1117',
 };
 
 export default function RootLayout({

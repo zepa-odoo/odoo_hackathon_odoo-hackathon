@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useState, useEffect, useRef } from 'react';
-import { FaSearch, FaUser, FaSignOutAlt, FaBell } from 'react-icons/fa';
+import { FaSearch, FaUser, FaSignOutAlt, FaBell, FaCog } from 'react-icons/fa';
 import NotificationDropdown from './NotificationDropdown';
 
 export default function Header() {
@@ -62,15 +62,18 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-[#161b22] shadow-github border-b border-[#30363d] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/questions" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Q</span>
+          <Link href="/questions" className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#238636] to-[#2ea043] rounded-lg flex items-center justify-center shadow-github">
+              <span className="text-white font-bold text-xl">S</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">QA Forum</span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-[#f0f6fc]">StackIt</span>
+              <span className="text-xs text-[#7d8590]">Q&A Community</span>
+            </div>
           </Link>
 
           {/* Search Bar */}
@@ -82,27 +85,27 @@ export default function Header() {
                   placeholder="Search questions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#238636] focus:border-[#238636] text-[#c9d1d9] placeholder-[#7d8590] transition-github"
                 />
-                <FaSearch className="absolute left-3 top-3 text-gray-400" />
+                <FaSearch className="absolute left-3 top-3 text-[#7d8590]" />
               </div>
             </form>
           </div>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/questions" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/questions" className="text-[#c9d1d9] hover:text-[#f0f6fc] transition-github">
               Questions
             </Link>
-            <Link href="/tags" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/tags" className="text-[#c9d1d9] hover:text-[#f0f6fc] transition-github">
               Tags
             </Link>
             {session ? (
-              <Link href="/questions/ask" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              <Link href="/questions/ask" className="btn-primary">
                 Ask Question
               </Link>
             ) : (
-              <Link href="/auth/signin" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              <Link href="/auth/signin" className="btn-primary">
                 Sign In
               </Link>
             )}
@@ -115,12 +118,12 @@ export default function Header() {
               <div className="relative" ref={notificationRef}>
                 <button
                   onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                  className="p-2 text-gray-600 hover:text-blue-600 transition-colors relative"
+                  className="p-2 text-[#c9d1d9] hover:text-[#f0f6fc] transition-github relative"
                 >
                   <FaBell className="w-5 h-5" />
                   {notificationCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
-                      {notificationCount > 99 ? '99+' : notificationCount}
+                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-[#da3633] rounded-full text-xs text-white flex items-center justify-center px-1">
+                      {notificationCount > 9 ? '9+' : notificationCount}
                     </span>
                   )}
                 </button>
@@ -137,26 +140,41 @@ export default function Header() {
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  className="flex items-center space-x-2 text-[#c9d1d9] hover:text-[#f0f6fc] transition-github"
                 >
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-[#238636] to-[#2ea043] rounded-full flex items-center justify-center">
                     <FaUser className="text-white text-sm" />
                   </div>
                   <span>{session.user?.username}</span>
+                  {session.user?.role === 'admin' && (
+                    <span className="badge badge-info text-xs">Admin</span>
+                  )}
+                  {session.user?.role === 'master' && (
+                    <span className="badge badge-warning text-xs">Master</span>
+                  )}
                 </button>
 
                 {isMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <div className="absolute right-0 mt-2 w-56 bg-[#161b22] rounded-lg shadow-github-lg border border-[#30363d] py-1 z-50">
                     <Link
                       href="/profile"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#21262d] transition-github"
                     >
                       <FaUser className="mr-2" />
                       My Profile
                     </Link>
+                    {(session.user?.role === 'admin' || session.user?.role === 'master') && (
+                      <Link
+                        href="/admin-panel"
+                        className="flex items-center px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#21262d] transition-github"
+                      >
+                        <FaCog className="mr-2" />
+                        Admin Panel
+                      </Link>
+                    )}
                     <button
                       onClick={handleSignOut}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center w-full px-4 py-2 text-sm text-[#c9d1d9] hover:bg-[#21262d] transition-github"
                     >
                       <FaSignOutAlt className="mr-2" />
                       Sign Out
@@ -171,7 +189,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-[#c9d1d9] hover:text-[#f0f6fc] transition-github"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -183,16 +201,16 @@ export default function Header() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[#161b22] border-t border-[#30363d]">
               <Link
                 href="/questions"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                className="block px-3 py-2 text-[#c9d1d9] hover:text-[#f0f6fc] hover:bg-[#21262d] transition-github rounded-lg"
               >
                 Questions
               </Link>
               <Link
                 href="/tags"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                className="block px-3 py-2 text-[#c9d1d9] hover:text-[#f0f6fc] hover:bg-[#21262d] transition-github rounded-lg"
               >
                 Tags
               </Link>
@@ -200,19 +218,27 @@ export default function Header() {
                 <>
                   <Link
                     href="/questions/ask"
-                    className="block px-3 py-2 text-blue-600 hover:text-blue-700 transition-colors"
+                    className="block px-3 py-2 text-[#238636] hover:text-[#2ea043] hover:bg-[#21262d] transition-github rounded-lg"
                   >
                     Ask Question
                   </Link>
                   <Link
                     href="/profile"
-                    className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                    className="block px-3 py-2 text-[#c9d1d9] hover:text-[#f0f6fc] hover:bg-[#21262d] transition-github rounded-lg"
                   >
                     My Profile
                   </Link>
+                  {(session.user?.role === 'admin' || session.user?.role === 'master') && (
+                    <Link
+                      href="/admin-panel"
+                      className="block px-3 py-2 text-[#c9d1d9] hover:text-[#f0f6fc] hover:bg-[#21262d] transition-github rounded-lg"
+                    >
+                      Admin Panel
+                    </Link>
+                  )}
                   <button
                     onClick={handleSignOut}
-                    className="block w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                    className="block w-full text-left px-3 py-2 text-[#c9d1d9] hover:text-[#f0f6fc] hover:bg-[#21262d] transition-github rounded-lg"
                   >
                     Sign Out
                   </button>
@@ -220,7 +246,7 @@ export default function Header() {
               ) : (
                 <Link
                   href="/auth/signin"
-                  className="block px-3 py-2 text-blue-600 hover:text-blue-700 transition-colors"
+                  className="block px-3 py-2 text-[#238636] hover:text-[#2ea043] hover:bg-[#21262d] transition-github rounded-lg"
                 >
                   Sign In
                 </Link>

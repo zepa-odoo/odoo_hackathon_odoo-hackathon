@@ -149,6 +149,14 @@ export async function POST(request: NextRequest) {
         { status: 403 }
       );
     }
+
+    // Check if user is suspended
+    if (user.suspendedUntil && new Date() < user.suspendedUntil) {
+      return NextResponse.json(
+        { error: 'Your account is currently suspended' },
+        { status: 403 }
+      );
+    }
     
     const question = new Question({
       title,
@@ -166,12 +174,20 @@ export async function POST(request: NextRequest) {
     });
     
     await question.save();
+
+    // Update user reputation and stats (+50 reputation for asking question)
+    user.reputation += 50;
+    user.questionsAsked += 1;
+    await user.save();
     
     const populatedQuestion = await Question.findById(question._id)
       .populate('author', 'username reputation')
       .lean();
     
-    return NextResponse.json(populatedQuestion, { status: 201 });
+    return NextResponse.json({
+      ...populatedQuestion,
+      reputationGained: 50
+    }, { status: 201 });
   } catch (error) {
     console.error('Error creating question:', error);
     return NextResponse.json(

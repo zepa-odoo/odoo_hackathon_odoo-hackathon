@@ -28,15 +28,15 @@ export default function QuestionCard({ question }: QuestionCardProps) {
   const voteCount = question.votes.upvotes.length - question.votes.downvotes.length;
   
   return (
-    <div className="card hover:shadow-md transition-shadow">
+    <div className="card hover:shadow-md transition-shadow rounded-lg">
       <div className="flex gap-4">
         {/* Vote Stats */}
-        <div className="flex flex-col items-center space-y-2 text-gray-500">
+        <div className="flex flex-col items-center space-y-2 text-[#7d8590]">
           <div className="flex items-center space-x-1">
             <FiThumbsUp className="w-4 h-4" />
             <span className="text-sm font-medium">{question.votes.upvotes.length}</span>
           </div>
-          <div className="text-lg font-bold text-gray-900">{voteCount}</div>
+          <div className="text-lg font-bold text-[#f0f6fc]">{voteCount}</div>
           <div className="flex items-center space-x-1">
             <FiThumbsDown className="w-4 h-4" />
             <span className="text-sm font-medium">{question.votes.downvotes.length}</span>
@@ -46,12 +46,12 @@ export default function QuestionCard({ question }: QuestionCardProps) {
         {/* Question Content */}
         <div className="flex-1 min-w-0">
           <Link href={`/questions/${question._id}`}>
-            <h3 className="text-lg font-semibold text-gray-900 hover:text-primary-600 transition-colors mb-2">
+            <h3 className="text-lg font-semibold text-[#f0f6fc] hover:text-[#58a6ff] transition-github mb-2">
               {question.title}
             </h3>
           </Link>
           
-          <p className="text-gray-600 text-sm mb-3 overflow-hidden" style={{
+          <p className="text-[#c9d1d9] text-sm mb-3 overflow-hidden" style={{
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
@@ -65,18 +65,18 @@ export default function QuestionCard({ question }: QuestionCardProps) {
               <Link
                 key={tag}
                 href={`/tags/${tag}`}
-                className="tag hover:bg-primary-200 transition-colors"
+                className="tag hover:bg-[#388bfd] transition-github"
               >
                 {tag}
               </Link>
             ))}
             {question.tags.length > 3 && (
-              <span className="text-gray-500 text-sm">+{question.tags.length - 3} more</span>
+              <span className="text-[#7d8590] text-sm">+{question.tags.length - 3} more</span>
             )}
           </div>
 
           {/* Meta Info */}
-          <div className="flex items-center justify-between text-sm text-gray-500">
+          <div className="flex items-center justify-between text-sm text-[#7d8590]">
             <div className="flex items-center space-x-4">
               <span>Asked by {question.author.username}</span>
               <span>Reputation: {question.author.reputation}</span>

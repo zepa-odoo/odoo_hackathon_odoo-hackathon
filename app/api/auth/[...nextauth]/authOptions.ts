@@ -24,6 +24,11 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
+        // Check if user is suspended
+        if (user.suspendedUntil && new Date() < user.suspendedUntil) {
+          return null;
+        }
+
         const isValidPassword = await user.comparePassword(credentials.password);
 
         if (!isValidPassword) {

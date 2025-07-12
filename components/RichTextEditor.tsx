@@ -43,12 +43,13 @@ export default function RichTextEditor({
   const [showImageDialog, setShowImageDialog] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const editorRef = useRef<HTMLDivElement>(null);
+  const [isComposing, setIsComposing] = useState(false);
 
   useEffect(() => {
-    if (editorRef.current) {
+    if (editorRef.current && !isComposing) {
       editorRef.current.innerHTML = value;
     }
-  }, [value]);
+  }, [value, isComposing]);
 
   const execCommand = (command: string, value?: string) => {
     document.execCommand(command, false, value);
@@ -57,8 +58,11 @@ export default function RichTextEditor({
   };
 
   const updateValue = () => {
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
+    if (editorRef.current && !isComposing) {
+      const newValue = editorRef.current.innerHTML;
+      if (newValue !== value) {
+        onChange(newValue);
+      }
     }
   };
 
@@ -137,94 +141,111 @@ export default function RichTextEditor({
     updateValue();
   };
 
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = () => {
+    setIsComposing(false);
+    updateValue();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && e.shiftKey) {
+      e.preventDefault();
+      document.execCommand('insertLineBreak', false);
+      updateValue();
+    }
+  };
+
   return (
-    <div className={`border border-gray-300 rounded-lg ${className}`}>
+    <div className={`border border-[#30363d] rounded-lg bg-[#0d1117] ${className}`}>
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-1 p-2 border-b border-gray-200 bg-gray-50">
+      <div className="flex flex-wrap items-center gap-1 p-2 border-b border-[#30363d] bg-[#161b22]">
         {/* Text formatting */}
         <button
           onClick={() => execCommand('bold')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Bold"
         >
           <FaBold className="w-4 h-4" />
         </button>
         <button
           onClick={() => execCommand('italic')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Italic"
         >
           <FaItalic className="w-4 h-4" />
         </button>
         <button
           onClick={() => execCommand('strikeThrough')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Strikethrough"
         >
           <FaStrikethrough className="w-4 h-4" />
         </button>
 
-        <div className="w-px h-6 bg-gray-300 mx-1"></div>
+        <div className="w-px h-6 bg-[#30363d] mx-1"></div>
 
         {/* Lists */}
         <button
           onClick={() => execCommand('insertUnorderedList')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Bullet list"
         >
           <FaListUl className="w-4 h-4" />
         </button>
         <button
           onClick={() => execCommand('insertOrderedList')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Numbered list"
         >
           <FaListOl className="w-4 h-4" />
         </button>
 
-        <div className="w-px h-6 bg-gray-300 mx-1"></div>
+        <div className="w-px h-6 bg-[#30363d] mx-1"></div>
 
         {/* Alignment */}
         <button
           onClick={() => execCommand('justifyLeft')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Align left"
         >
           <FaAlignLeft className="w-4 h-4" />
         </button>
         <button
           onClick={() => execCommand('justifyCenter')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Align center"
         >
           <FaAlignCenter className="w-4 h-4" />
         </button>
         <button
           onClick={() => execCommand('justifyRight')}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Align right"
         >
           <FaAlignRight className="w-4 h-4" />
         </button>
 
-        <div className="w-px h-6 bg-gray-300 mx-1"></div>
+        <div className="w-px h-6 bg-[#30363d] mx-1"></div>
 
         {/* Links and media */}
         <button
           onClick={() => setShowLinkDialog(true)}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Insert link"
         >
           <FaLink className="w-4 h-4" />
         </button>
         <button
           onClick={() => setShowImageDialog(true)}
-          className="p-2 hover:bg-gray-200 rounded"
+          className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
           title="Insert image URL"
         >
           <FaImage className="w-4 h-4" />
         </button>
-        <label className="p-2 hover:bg-gray-200 rounded cursor-pointer" title="Upload image">
+        <label className="p-2 hover:bg-[#21262d] rounded cursor-pointer transition-github text-[#c9d1d9] hover:text-[#f0f6fc]" title="Upload image">
           <input
             type="file"
             accept="image/*"
@@ -234,26 +255,26 @@ export default function RichTextEditor({
           <FaImage className="w-4 h-4" />
         </label>
 
-        <div className="w-px h-6 bg-gray-300 mx-1"></div>
+        <div className="w-px h-6 bg-[#30363d] mx-1"></div>
 
         {/* Emoji picker */}
         <div className="relative">
           <button
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            className="p-2 hover:bg-gray-200 rounded"
+            className="p-2 hover:bg-[#21262d] rounded transition-github text-[#c9d1d9] hover:text-[#f0f6fc]"
             title="Insert emoji"
           >
             <FaSmile className="w-4 h-4" />
           </button>
           
           {showEmojiPicker && (
-            <div className="absolute top-full left-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-50 w-64 max-h-48 overflow-y-auto">
+            <div className="absolute top-full left-0 mt-1 bg-[#161b22] border border-[#30363d] rounded-lg shadow-github-lg p-2 z-50 w-64 max-h-48 overflow-y-auto">
               <div className="grid grid-cols-10 gap-1">
                 {EMOJIS.map((emoji, index) => (
                   <button
                     key={index}
                     onClick={() => insertEmoji(emoji)}
-                    className="p-1 hover:bg-gray-100 rounded text-lg"
+                    className="p-1 hover:bg-[#21262d] rounded text-lg transition-github"
                   >
                     {emoji}
                   </button>
@@ -271,7 +292,10 @@ export default function RichTextEditor({
         onInput={updateValue}
         onPaste={handlePaste}
         onBlur={updateValue}
-        className="p-4 min-h-[200px] focus:outline-none"
+        onCompositionStart={handleCompositionStart}
+        onCompositionEnd={handleCompositionEnd}
+        onKeyDown={handleKeyDown}
+        className="p-4 min-h-[200px] focus:outline-none text-[#c9d1d9] prose"
         style={{ minHeight: '200px' }}
         data-placeholder={placeholder}
       />
@@ -279,30 +303,30 @@ export default function RichTextEditor({
       {/* Link Dialog */}
       {showLinkDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96">
-            <h3 className="text-lg font-semibold mb-4">Insert Link</h3>
+          <div className="bg-[#161b22] rounded-lg p-6 w-96 border border-[#30363d]">
+            <h3 className="text-lg font-semibold mb-4 text-[#f0f6fc]">Insert Link</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-[#c9d1d9] mb-1">
                   Link Text
                 </label>
                 <input
                   type="text"
                   value={linkText}
                   onChange={(e) => setLinkText(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="input"
                   placeholder="Link text"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-[#c9d1d9] mb-1">
                   URL
                 </label>
                 <input
                   type="url"
                   value={linkUrl}
                   onChange={(e) => setLinkUrl(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="input"
                   placeholder="https://example.com"
                 />
               </div>
@@ -310,13 +334,13 @@ export default function RichTextEditor({
             <div className="flex justify-end space-x-2 mt-6">
               <button
                 onClick={() => setShowLinkDialog(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="btn-secondary"
               >
                 Cancel
               </button>
               <button
                 onClick={insertLink}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="btn-primary"
               >
                 Insert
               </button>
@@ -328,30 +352,30 @@ export default function RichTextEditor({
       {/* Image Dialog */}
       {showImageDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96">
-            <h3 className="text-lg font-semibold mb-4">Insert Image</h3>
+          <div className="bg-[#161b22] rounded-lg p-6 w-96 border border-[#30363d]">
+            <h3 className="text-lg font-semibold mb-4 text-[#f0f6fc]">Insert Image</h3>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#c9d1d9] mb-1">
                 Image URL
               </label>
               <input
                 type="url"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="input"
                 placeholder="https://example.com/image.jpg"
               />
             </div>
             <div className="flex justify-end space-x-2 mt-6">
               <button
                 onClick={() => setShowImageDialog(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="btn-secondary"
               >
                 Cancel
               </button>
               <button
                 onClick={insertImage}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="btn-primary"
               >
                 Insert
               </button>

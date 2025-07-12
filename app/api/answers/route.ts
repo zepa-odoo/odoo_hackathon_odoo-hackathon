@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     
     await dbConnect();
     
-    const { content, questionId } = await request.json();
+    const { content, questionId, images } = await request.json();
     
     if (!content || !questionId) {
       return NextResponse.json(
@@ -71,6 +71,14 @@ export async function POST(request: NextRequest) {
         { status: 403 }
       );
     }
+
+    // Check if user is suspended
+    if (user.suspendedUntil && new Date() < user.suspendedUntil) {
+      return NextResponse.json(
+        { error: 'Your account is currently suspended' },
+        { status: 403 }
+      );
+    }
     
     const question = await Question.findById(questionId);
     
@@ -83,11 +91,17 @@ export async function POST(request: NextRequest) {
     
     const answer = new Answer({
       content,
+      images: images || [],
       author: session.user.id,
       question: questionId,
     });
     
     await answer.save();
+
+    // Update user reputation and stats (+100 reputation for answering)
+    user.reputation += 100;
+    user.answersGiven += 1;
+    await user.save();
     
     // Create notification for question author
     if (question.author.toString() !== session.user.id) {
@@ -106,7 +120,10 @@ export async function POST(request: NextRequest) {
       .populate('author', 'username reputation')
       .lean();
     
-    return NextResponse.json(populatedAnswer, { status: 201 });
+    return NextResponse.json({
+      ...populatedAnswer,
+      reputationGained: 100
+    }, { status: 201 });
   } catch (error) {
     console.error('Error creating answer:', error);
     return NextResponse.json(

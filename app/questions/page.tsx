@@ -10,7 +10,6 @@ import {
   FiClock, 
   FiMessageSquare, 
   FiFilter,
-  FiEye,
   FiThumbsUp,
   FiTag,
   FiUser,
@@ -113,7 +112,7 @@ export default function QuestionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0d1117]">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -121,13 +120,13 @@ export default function QuestionsPage() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Questions</h1>
-              <p className="mt-2 text-gray-600">Find answers to your questions or help others</p>
+              <h1 className="text-3xl font-bold text-[#f0f6fc]">Questions</h1>
+              <p className="mt-2 text-[#7d8590]">Find answers to your questions or help others</p>
             </div>
             {session && (
               <Link
                 href="/questions/ask"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center px-4 py-2 btn-primary"
               >
                 <FiPlus className="mr-2" />
                 Ask Question
@@ -140,26 +139,26 @@ export default function QuestionsPage() {
           {/* Sidebar */}
           <div className="lg:w-80 space-y-6">
             {/* Search */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="card p-4">
               <form onSubmit={handleSearch} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
                     Search Questions
                   </label>
                   <div className="relative">
-                    <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#7d8590] w-4 h-4" />
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       placeholder="Search questions..."
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full pl-10 pr-4 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg focus:ring-2 focus:ring-[#238636] focus:border-[#238636] text-[#c9d1d9] placeholder-[#7d8590] transition-github"
                     />
                   </div>
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  className="w-full btn-primary"
                 >
                   Search
                 </button>
@@ -167,8 +166,8 @@ export default function QuestionsPage() {
             </div>
 
             {/* Sort Options */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <div className="card p-4">
+              <h3 className="text-lg font-semibold text-[#f0f6fc] mb-4 flex items-center">
                 <FiFilter className="mr-2" />
                 Sort by
               </h3>
@@ -177,15 +176,14 @@ export default function QuestionsPage() {
                   { value: 'newest', label: 'Newest', icon: FiClock },
                   { value: 'popular', label: 'Most Popular', icon: FiTrendingUp },
                   { value: 'votes', label: 'Most Voted', icon: FiThumbsUp },
-                  { value: 'views', label: 'Most Viewed', icon: FiEye },
                 ].map((option) => (
                   <button
                     key={option.value}
                     onClick={() => handleSortChange(option.value)}
-                    className={`w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center ${
+                    className={`w-full text-left px-3 py-2 rounded-lg transition-github flex items-center ${
                       sortBy === option.value 
-                        ? 'bg-blue-100 text-blue-700 border border-blue-200' 
-                        : 'hover:bg-gray-100'
+                        ? 'bg-[#238636] text-white border border-[#238636]' 
+                        : 'text-[#c9d1d9] hover:bg-[#21262d] hover:text-[#f0f6fc]'
                     }`}
                   >
                     <option.icon className="mr-2 w-4 h-4" />
@@ -196,8 +194,8 @@ export default function QuestionsPage() {
             </div>
 
             {/* Filter Options */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter</h3>
+            <div className="card p-4">
+              <h3 className="text-lg font-semibold text-[#f0f6fc] mb-4">Filter</h3>
               <div className="space-y-2">
                 {[
                   { value: 'all', label: 'All Questions' },
@@ -208,10 +206,10 @@ export default function QuestionsPage() {
                   <button
                     key={option.value}
                     onClick={() => handleFilterChange(option.value)}
-                    className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    className={`w-full text-left px-3 py-2 rounded-lg transition-github ${
                       filter === option.value 
-                        ? 'bg-blue-100 text-blue-700 border border-blue-200' 
-                        : 'hover:bg-gray-100'
+                        ? 'bg-[#238636] text-white border border-[#238636]' 
+                        : 'text-[#c9d1d9] hover:bg-[#21262d] hover:text-[#f0f6fc]'
                     }`}
                   >
                     {option.label}
@@ -222,45 +220,45 @@ export default function QuestionsPage() {
 
             {/* Active Filters */}
             {(searchTerm || selectedTag || filter !== 'all') && (
-              <div className="bg-white border border-gray-200 rounded-lg p-4">
+              <div className="card p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-medium text-gray-900">Active Filters</h3>
+                  <h3 className="text-sm font-medium text-[#f0f6fc]">Active Filters</h3>
                   <button
                     onClick={clearFilters}
-                    className="text-sm text-blue-600 hover:text-blue-700"
+                    className="text-sm text-[#58a6ff] hover:text-[#79c0ff] transition-github"
                   >
                     Clear all
                   </button>
                 </div>
                 <div className="space-y-2">
                   {searchTerm && (
-                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
-                      <span className="text-sm text-gray-700">Search: "{searchTerm}"</span>
+                    <div className="flex items-center justify-between bg-[#21262d] px-3 py-2 rounded-lg">
+                      <span className="text-sm text-[#c9d1d9]">Search: "{searchTerm}"</span>
                       <button
                         onClick={() => setSearchTerm('')}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-[#7d8590] hover:text-[#c9d1d9] transition-github"
                       >
                         <FiX className="w-4 h-4" />
                       </button>
                     </div>
                   )}
                   {selectedTag && (
-                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
-                      <span className="text-sm text-gray-700">Tag: {selectedTag}</span>
+                    <div className="flex items-center justify-between bg-[#21262d] px-3 py-2 rounded-lg">
+                      <span className="text-sm text-[#c9d1d9]">Tag: {selectedTag}</span>
                       <button
                         onClick={() => setSelectedTag('')}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-[#7d8590] hover:text-[#c9d1d9] transition-github"
                       >
                         <FiX className="w-4 h-4" />
                       </button>
                     </div>
                   )}
                   {filter !== 'all' && (
-                    <div className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
-                      <span className="text-sm text-gray-700">Filter: {filter}</span>
+                    <div className="flex items-center justify-between bg-[#21262d] px-3 py-2 rounded-lg">
+                      <span className="text-sm text-[#c9d1d9]">Filter: {filter}</span>
                       <button
                         onClick={() => setFilter('all')}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-[#7d8590] hover:text-[#c9d1d9] transition-github"
                       >
                         <FiX className="w-4 h-4" />
                       </button>
@@ -274,26 +272,33 @@ export default function QuestionsPage() {
           {/* Questions List */}
           <div className="flex-1">
             {loading ? (
-              <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="mt-4 text-gray-600">Loading questions...</p>
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="card p-6 animate-pulse">
+                    <div className="h-4 bg-[#21262d] rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-[#21262d] rounded w-1/2 mb-4"></div>
+                    <div className="flex space-x-4">
+                      <div className="h-3 bg-[#21262d] rounded w-16"></div>
+                      <div className="h-3 bg-[#21262d] rounded w-20"></div>
+                      <div className="h-3 bg-[#21262d] rounded w-24"></div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : questions.length === 0 ? (
-              <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                <FiMessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No questions found</h3>
-                <p className="text-gray-500 mb-4">
+              <div className="card p-8 text-center">
+                <FiMessageSquare className="mx-auto h-12 w-12 text-[#7d8590] mb-4" />
+                <h3 className="text-lg font-medium text-[#f0f6fc] mb-2">No questions found</h3>
+                <p className="text-[#7d8590] mb-4">
                   {searchTerm || selectedTag || filter !== 'all' 
-                    ? 'Try adjusting your search or filters'
-                    : 'Be the first to ask a question!'
-                  }
+                    ? 'Try adjusting your search or filters.' 
+                    : 'Be the first to ask a question!'}
                 </p>
                 {session && (
                   <Link
                     href="/questions/ask"
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="btn-primary"
                   >
-                    <FiPlus className="mr-2" />
                     Ask Question
                   </Link>
                 )}
@@ -301,74 +306,70 @@ export default function QuestionsPage() {
             ) : (
               <div className="space-y-4">
                 {questions.map((question) => (
-                  <div
-                    key={question._id}
-                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex gap-6">
-                      {/* Stats */}
-                      <div className="flex flex-col items-center space-y-2 text-center min-w-[80px]">
-                        <div className="text-lg font-bold text-gray-900">
+                  <div key={question._id} className="card p-6 hover:shadow-github-lg transition-github">
+                    <div className="flex items-start space-x-4">
+                      {/* Vote Count */}
+                      <div className="flex flex-col items-center space-y-1 min-w-[60px]">
+                        <div className="text-lg font-bold text-[#f0f6fc]">
                           {getVoteCount(question.votes)}
                         </div>
-                        <div className="text-xs text-gray-500">votes</div>
-                        <div className="text-lg font-bold text-gray-900">
-                          {question.answers}
-                        </div>
-                        <div className="text-xs text-gray-500">answers</div>
-                        <div className="text-sm text-gray-500">
-                          {question.views} views
-                        </div>
+                        <div className="text-xs text-[#7d8590]">votes</div>
                       </div>
 
-                      {/* Content */}
-                      <div className="flex-1">
-                        <Link
+                      {/* Question Content */}
+                      <div className="flex-1 min-w-0">
+                        <Link 
                           href={`/questions/${question._id}`}
                           className="block group"
                         >
-                          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                          <h3 className="text-lg font-semibold text-[#f0f6fc] group-hover:text-[#58a6ff] transition-github line-clamp-2 mb-2">
                             {question.title}
                           </h3>
-                          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                          <p className="text-[#7d8590] line-clamp-2 mb-3">
                             {question.shortDescription}
                           </p>
                         </Link>
 
                         {/* Tags */}
-                        <div className="flex flex-wrap gap-2 mb-4">
+                        <div className="flex flex-wrap gap-2 mb-3">
                           {question.tags.slice(0, 3).map((tag) => (
-                            <span
-                              key={tag}
-                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors cursor-pointer"
+                            <span 
+                              key={tag} 
+                              className="tag text-xs"
                             >
                               <FiTag className="w-3 h-3 mr-1" />
                               {tag}
                             </span>
                           ))}
                           {question.tags.length > 3 && (
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-[#7d8590]">
                               +{question.tags.length - 3} more
                             </span>
                           )}
                         </div>
 
                         {/* Meta Info */}
-                        <div className="flex items-center justify-between text-sm text-gray-500">
+                        <div className="flex items-center justify-between text-sm text-[#7d8590]">
                           <div className="flex items-center space-x-4">
                             <div className="flex items-center space-x-1">
                               <FiUser className="w-4 h-4" />
                               <span>{question.author.username}</span>
+                              <span className="text-[#238636]">({question.author.reputation})</span>
                             </div>
-                            <span>Reputation: {question.author.reputation}</span>
-                            <span>{formatDistanceToNow(new Date(question.createdAt), { addSuffix: true })}</span>
+                            <div className="flex items-center space-x-1">
+                              <FiClock className="w-4 h-4" />
+                              <span>{formatDistanceToNow(new Date(question.createdAt), { addSuffix: true })}</span>
+                            </div>
                           </div>
-                          {question.isAccepted && (
-                            <div className="flex items-center space-x-1 text-green-600">
+                          <div className="flex items-center space-x-4">
+                            <div className="flex items-center space-x-1">
                               <FiMessageSquare className="w-4 h-4" />
-                              <span>Accepted</span>
+                              <span>{question.answers} answers</span>
                             </div>
-                          )}
+                            {question.isAccepted && (
+                              <span className="badge badge-success">Accepted</span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>

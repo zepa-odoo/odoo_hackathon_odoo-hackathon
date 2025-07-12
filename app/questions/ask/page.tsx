@@ -164,10 +164,10 @@ export default function AskQuestionPage() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#0d1117]">
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-8">
-          <div className="text-center">Loading...</div>
+          <div className="text-center text-[#c9d1d9]">Loading...</div>
         </div>
       </div>
     );
@@ -175,13 +175,13 @@ export default function AskQuestionPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#0d1117]">
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="card text-center">
-            <FiAlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Sign in required</h2>
-            <p className="text-gray-600 mb-4">
+            <FiAlertCircle className="mx-auto h-12 w-12 text-[#7d8590] mb-4" />
+            <h2 className="text-xl font-semibold text-[#f0f6fc] mb-2">Sign in required</h2>
+            <p className="text-[#c9d1d9] mb-4">
               You need to be signed in to ask a question.
             </p>
             <Link href="/auth/signin?callbackUrl=/questions/ask" className="btn btn-primary">
@@ -194,13 +194,13 @@ export default function AskQuestionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0d1117]">
       <Header />
       
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Ask a Question</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-[#f0f6fc] mb-2">Ask a Question</h1>
+          <p className="text-[#c9d1d9]">
             Share your knowledge and help others by asking a question.
           </p>
         </div>
@@ -208,7 +208,7 @@ export default function AskQuestionPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Title */}
           <div className="card">
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-[#c9d1d9] mb-2">
               Title *
             </label>
             <input
@@ -221,14 +221,14 @@ export default function AskQuestionPage() {
               maxLength={200}
               required
             />
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-[#7d8590]">
               {formData.title.length}/200 characters
             </p>
           </div>
 
           {/* Short Description */}
           <div className="card">
-            <label htmlFor="shortDescription" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="shortDescription" className="block text-sm font-medium text-[#c9d1d9] mb-2">
               Short Description *
             </label>
             <textarea
@@ -240,14 +240,14 @@ export default function AskQuestionPage() {
               maxLength={200}
               required
             />
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-[#7d8590]">
               {formData.shortDescription.length}/200 characters
             </p>
           </div>
 
           {/* Content */}
           <div className="card">
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="content" className="block text-sm font-medium text-[#c9d1d9] mb-2">
               Detailed Description *
             </label>
             <RichTextEditor
@@ -260,7 +260,7 @@ export default function AskQuestionPage() {
 
           {/* Tags */}
           <div className="card">
-            <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="tags" className="block text-sm font-medium text-[#c9d1d9] mb-2">
               Tags * (max 5)
             </label>
             <input
@@ -289,17 +289,17 @@ export default function AskQuestionPage() {
                 </span>
               ))}
             </div>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-[#7d8590]">
               {formData.tags.length}/5 tags
             </p>
           </div>
 
           {/* Images */}
           <div className="card">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
               Images (optional, max 2, 1MB each)
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <div className="border-2 border-dashed border-[#30363d] rounded-lg p-6 text-center">
               <input
                 type="file"
                 accept="image/*"
@@ -312,8 +312,8 @@ export default function AskQuestionPage() {
                 htmlFor="image-upload"
                 className="cursor-pointer flex flex-col items-center"
               >
-                <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
-                <span className="text-sm text-gray-600">
+                <FiUpload className="w-8 h-8 text-[#7d8590] mb-2" />
+                <span className="text-sm text-[#c9d1d9]">
                   Click to upload images or drag and drop
                 </span>
               </label>
@@ -331,7 +331,7 @@ export default function AskQuestionPage() {
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      className="absolute top-2 right-2 bg-[#da3633] text-white rounded-full p-1 hover:bg-[#f85149] transition-github"
                     >
                       <FiX className="w-4 h-4" />
                     </button>

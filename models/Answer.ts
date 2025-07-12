@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IAnswer extends Document {
   content: string;
+  images: string[];
   author: mongoose.Types.ObjectId;
   question: mongoose.Types.ObjectId;
   votes: {
@@ -19,6 +20,10 @@ const answerSchema = new Schema<IAnswer>({
     required: true,
     minlength: 10,
   },
+  images: [{
+    type: String,
+    maxlength: 1024, // 1MB max
+  }],
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',

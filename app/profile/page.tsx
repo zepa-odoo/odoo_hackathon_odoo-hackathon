@@ -139,8 +139,8 @@ export default function ProfilePage() {
           </div>
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <FaComment className="text-green-600" />
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <FaComment className="text-blue-600" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-gray-900">{answers.length}</p>
@@ -262,7 +262,7 @@ export default function ProfilePage() {
                         <div className="flex items-center space-x-4">
                           <span>{answer.votes.upvotes.length - answer.votes.downvotes.length} votes</span>
                           {answer.isAccepted && (
-                            <span className="text-green-600 font-medium">✓ Accepted</span>
+                            <span className="text-blue-600 font-medium">✓ Accepted</span>
                           )}
                         </div>
                         <span>{new Date(answer.createdAt).toLocaleDateString()}</span>

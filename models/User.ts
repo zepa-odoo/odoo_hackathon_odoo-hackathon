@@ -5,11 +5,16 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  role: 'user' | 'admin';
+  role: 'user' | 'admin' | 'master';
   reputation: number;
   avatar?: string;
   bio?: string;
   isBanned: boolean;
+  suspendedUntil?: Date;
+  suspensionReason?: string;
+  questionsAsked: number;
+  answersGiven: number;
+  acceptedAnswers: number;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -38,7 +43,7 @@ const userSchema = new Schema<IUser>({
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'master'],
     default: 'user',
   },
   reputation: {
@@ -55,6 +60,25 @@ const userSchema = new Schema<IUser>({
   isBanned: {
     type: Boolean,
     default: false,
+  },
+  suspendedUntil: {
+    type: Date,
+  },
+  suspensionReason: {
+    type: String,
+    maxlength: 500,
+  },
+  questionsAsked: {
+    type: Number,
+    default: 0,
+  },
+  answersGiven: {
+    type: Number,
+    default: 0,
+  },
+  acceptedAnswers: {
+    type: Number,
+    default: 0,
   },
 }, {
   timestamps: true,
